@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çalışan Yönetimi</title>
+</head>
+<body>
+
+    <h1>Çalışan Yönetim Sistemi</h1>
+    <p>Tarayıcı konsolunu açarak işlemleri görebilirsiniz.</p>
+
+    <script>
+        let calisanlar = [];
+
+        let yeniIsim = prompt("Çalışanın ismini girin:");
+        let yeniYas = parseInt(prompt("Çalışanın yaşını girin:"));
+        let yeniDepartman = prompt("Çalışanın departmanını girin:");
+        let yeniMaas = parseFloat(prompt("Çalışanın maaşını girin:"));
+
+        if (yeniIsim === "") {
+            console.log("Hata: İsim boş olamaz.");
+        } else if (yeniYas < 18) {
+            console.log("Hata: Çalışan yaşı 18'den küçük olamaz.");
+        } else if (yeniMaas <= 0) {
+            console.log("Hata: Maaş 0'dan büyük olmalıdır.");
+        } else {
+            let mevcutMu = false;
+            for (let i = 0; i < calisanlar.length; i++) {
+                if (calisanlar[i].isim === yeniIsim) {
+                    mevcutMu = true;
+                    break;
+                }
+            }
+
+            if (mevcutMu) {
+                console.log("Hata: Aynı isimde bir çalışan zaten var.");
+            } else {
+                calisanlar.push({
+                    isim: yeniIsim,
+                    yas: yeniYas,
+                    departman: yeniDepartman,
+                    maas: yeniMaas
+                });
+                console.log("Çalışan başarıyla eklendi.");
+            }
+        }
+
+        console.log("Tüm Çalışanlar: ", calisanlar);
+
+        let guncelleIsim = prompt("Güncellenecek çalışanın ismini girin:");
+        let bulunduMu = false;
+        for (let i = 0; i < calisanlar.length; i++) {
+            if (calisanlar[i].isim === guncelleIsim) {
+                bulunduMu = true;
+
+                let yeniYas = parseInt(prompt("Yeni yaşı girin:"));
+                let yeniDepartman = prompt("Yeni departmanı girin:");
+                let yeniMaas = parseFloat(prompt("Yeni maaşı girin:"));
+
+                calisanlar[i].yas = yeniYas;
+                calisanlar[i].departman = yeniDepartman;
+                calisanlar[i].maas = yeniMaas;
+
+                console.log("Çalışan bilgileri güncellendi.");
+                break;
+            }
+        }
+
+        if (!bulunduMu) {
+            console.log("Hata: Çalışan bulunamadı.");
+        }
+
+        console.log("Güncellenmiş Çalışanlar: ", calisanlar);
+
+        let silinecekIsim = prompt("Silinecek çalışanın ismini girin:");
+        let silindiMi = false;
+        for (let i = 0; i < calisanlar.length; i++) {
+            if (calisanlar[i].isim === silinecekIsim) {
+                calisanlar.splice(i, 1);
+                silindiMi = true;
+                console.log("Çalışan başarıyla silindi.");
+                break;
+            }
+        }
+
+        if (!silindiMi) {
+            console.log("Hata: Çalışan bulunamadı.");
+        }
+
+        console.log("Güncellenmiş Çalışan Listesi: ", calisanlar);
+
+        let listeDepartman = prompt("Listelemek istediğiniz departmanı girin:");
+        let bulunanCalisanlar = [];
+        for (let i = 0; i < calisanlar.length; i++) {
+            if (calisanlar[i].departman === listeDepartman) {
+                bulunanCalisanlar.push(calisanlar[i]);
+            }
+        }
+
+        if (bulunanCalisanlar.length > 0) {
+            console.log(listeDepartman + " departmanındaki çalışanlar:", bulunanCalisanlar);
+        } else {
+            console.log("Bu departmanda çalışan bulunmamaktadır.");
+        }
+
+        let siralamaTuru = prompt("Maaş sıralama türü nedir? (artan/azalan)");
+        if (siralamaTuru === "artan") {
+            calisanlar.sort(function(a, b) {
+                return a.maas - b.maas;
+            });
+        } else if (siralamaTuru === "azalan") {
+            calisanlar.sort(function(a, b) {
+                return b.maas - a.maas;
+            });
+        }
+
+        console.log("Maaşa göre sıralanmış çalışanlar:", calisanlar);
+
+        let enYuksekMaasliCalisan = calisanlar[0];
+        for (let i = 1; i < calisanlar.length; i++) {
+            if (calisanlar[i].maas > enYuksekMaasliCalisan.maas) {
+                enYuksekMaasliCalisan = calisanlar[i];
+            }
+        }
+        console.log("En yüksek maaşlı çalışan:", enYuksekMaasliCalisan);
+
+        let toplamMaas = 0;
+        for (let i = 0; i < calisanlar.length; i++) {
+            toplamMaas += calisanlar[i].maas;
+        }
+        console.log("Tüm çalışanların toplam maaşı:", toplamMaas);
+    </script>
+</body>
+</html>
